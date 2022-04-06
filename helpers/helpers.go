@@ -11,13 +11,13 @@ import (
 
 // decode is a helper function for decoding json bodies into objects. decode
 // also closes the request body.
-func decode(r *http.Request, v interface{}) error {
+func Decode(r *http.Request, v interface{}) error {
 	defer r.Body.Close()
 	return json.NewDecoder(r.Body).Decode(v)
 }
 
 // encodeJSON is a helper function for returning objects in a JSON API spec format.
-func encodeJSON(c echo.Context, code int, v interface{}) error {
+func EncodeJSON(c echo.Context, code int, v interface{}) error {
 	c.Response().Header().Set("Content-Type", "application/vnd.api+json")
 	c.Response().WriteHeader(code)
 
@@ -34,7 +34,7 @@ func encodeJSON(c echo.Context, code int, v interface{}) error {
 }
 
 // newError is a helper function that will convert the erorr in a JSON response.
-func newError(code int, desc string) HTTPError {
+func NewError(code int, desc string) HTTPError {
 	return HTTPError{code, desc}
 }
 

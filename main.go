@@ -5,10 +5,10 @@ import (
 	"flag"
 	"os"
 
-	helpers "github.com/tobolkin8/go_april_2022/helpers"
-
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
+	"github.com/tobolkin8/go_april_2022/database"
+	"github.com/tobolkin8/go_april_2022/helpers"
 )
 
 func main() {
@@ -21,22 +21,26 @@ func main() {
 
 	// set the flags into env vars
 	os.Setenv("APP_ENV", *env)
+
+	// initialize database connection, with the credentials from the environment.
+	repo, err := database.Connect()
+	if err != nil {
+		panic(err)
+	}
+
+	// repo configuration
+	repo.LogMode(true)
 	// application configuration
 	router := echo.New()
 	router.HTTPErrorHandler = errorHandler
 
 	router.Use(middleware.Logger(), middleware.Recover())
-	registerAuthHandlers(router, helpers.AuthService{})
 
 	// V1 API endpoints
 	//v1 := router.Group("/v1")
 	//registerUserHandlers(v1, handler.UserService{repo})
 
 	router.Start(*listen)
-}
-
-func registerAuthHandlers(router *echo.Echo, authService helpers.AuthService) {
-	router.GET("/test", authService.Show)
 }
 
 // User related endpoints
