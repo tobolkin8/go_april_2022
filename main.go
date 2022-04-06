@@ -5,7 +5,7 @@ import (
 	"flag"
 	"os"
 
-	helpers "github.com/tobolkin8/helpers"
+	helpers "github.com/tobolkin8/go_april_2022/helpers"
 
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
