@@ -1,4 +1,4 @@
-package helper
+package helpers
 
 import (
 	"encoding/json"
@@ -6,7 +6,7 @@ import (
 	"reflect"
 
 	"github.com/labstack/echo"
-	"github.com/shwoodard/jsonapi"
+	jsonapi "github.com/shwoodard/jsonapi"
 )
 
 // decode is a helper function for decoding json bodies into objects. decode
@@ -23,14 +23,14 @@ func encodeJSON(c echo.Context, code int, v interface{}) error {
 
 	s := reflect.ValueOf(v)
 	if s.Kind() != reflect.Slice {
-		return jsonapi.MarshalOnePayload(c.Response(), v)
+		return jsonapi.MarshalOnePayloadEmbedded(c.Response(), v)
 	}
 
 	ret := make([]interface{}, s.Len())
 	for i := 0; i < s.Len(); i++ {
 		ret[i] = s.Index(i).Interface()
 	}
-	return jsonapi.MarshalManyPayload(c.Response(), ret)
+	return jsonapi.MarshalPayload(c.Response(), ret)
 }
 
 // newError is a helper function that will convert the erorr in a JSON response.
