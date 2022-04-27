@@ -2,20 +2,15 @@ package dictionary
 
 import (
 	"fmt"
+	"hello/str_consts"
 )
 
 type Dictionary map[string]string
 
-var (
-	ErrNotFound      = "the word %s not found"
-	ErrWordExists    = "cannot add word %s because it already exists"
-	ErrWordNotExists = "cannot update word %s because its not exists"
-)
-
 func (d Dictionary) Search(word string) (string, error) {
 
 	if v, ok := d[word]; !ok || v == "" {
-		return "", fmt.Errorf(ErrNotFound, word)
+		return "", fmt.Errorf(str_consts.DICTIONARY_ERROR_NOT_FOUND, word)
 	}
 
 	return d[word], nil
@@ -25,7 +20,7 @@ func (d Dictionary) Add(word string, definition string) error {
 	_, err := d.Search(word)
 
 	if err == nil {
-		return fmt.Errorf(ErrWordExists, word)
+		return fmt.Errorf(str_consts.DICTIONARY_ERROR_WORD_EXIST, word)
 	}
 	d[word] = definition
 	return nil
@@ -36,7 +31,7 @@ func (d Dictionary) Update(word string, definition string) error {
 	_, err := d.Search(word)
 
 	if err != nil {
-		return fmt.Errorf(ErrWordNotExists, word)
+		return fmt.Errorf(str_consts.DICTIONARY_ERROR_WORD_NOT_EXIST, word)
 	}
 	d[word] = definition
 	return nil

@@ -3,6 +3,7 @@ package wallet
 import (
 	"errors"
 	"fmt"
+	"hello/str_consts"
 )
 
 type Bitcoin int
@@ -22,12 +23,12 @@ func (w *Wallet) Balance() (Bitcoin) {
 }
 
 func (b Bitcoin) String() string {
-    return fmt.Sprintf("%d BTC", b)
+    return fmt.Sprintf(str_consts.WALLET_BTC_FORMAT, b)
 }
 
 func (w *Wallet) Withdraw(amount Bitcoin) error {
 	 if amount > w.balance {
-        return errors.New("No money bitch")
+        return errors.New(str_consts.WALLET_NO_FOUNDS)
     }
 	w.balance -= amount
 	return nil

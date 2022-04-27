@@ -1,6 +1,7 @@
 package iteration
 
 import (
+	"hello/tests"
 	"strings"
 	"testing"
 )
@@ -10,9 +11,7 @@ func TestRepeat(t *testing.T) {
 		repeated := Repeat("a", i)
 		expected := strings.Repeat("a", i)
 
-		if repeated != expected {
-			t.Errorf("expected %q but got %q", expected, repeated)
-		}
+				tests.FailedTestResults(t, expected, repeated)
 	}
 }
 func BenchmarkRepeat(b *testing.B) {
